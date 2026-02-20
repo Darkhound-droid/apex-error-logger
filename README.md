@@ -150,5 +150,5 @@ This project is licensed under the MIT License. See [LICENSE](LICENSE) for detai
 Oracle ACE Apprentice  
 Senior Oracle APEX Developer at S&H Software Solutions, Pakistan
 
-- Blog: [Hassan Raza on GitHub](https://github.com/Darkhound-droid)
-- LinkedIn: [Hassan Raza](https://www.linkedin.com/)
+- Github: [Hassan Raza on GitHub](https://github.com/Darkhound-droid)
+- LinkedIn: [Hassan Raza](https://www.linkedin.com/in/link-hassan-raza/)
