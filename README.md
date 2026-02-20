@@ -56,6 +56,7 @@ Run the SQL scripts in the exact order shown:
 4. `sql/04_pkg_error_logger_body.sql`
 5. `sql/05_create_views.sql`
 6. `sql/06_sample_usage.sql` (optional; examples/reference)
+7. `sql/07_scheduler_job.sql` (optional: scheduler job examples and background process logging)
 
 Example SQL*Plus / SQLcl flow:
 
@@ -106,6 +107,24 @@ Use `apex/log_viewer_query.sql` as the source query of an APEX Interactive Repor
 - Paste query from `apex/log_viewer_query.sql`.
 - Add optional page items used by the query (`PXX_SEVERITY`, `PXX_MODULE`, `PXX_FROM_DATE`, `PXX_TO_DATE`) for runtime filtering.
 - Apply column formatting and badge/template classes using `SEVERITY_CSS_CLASS` for color cues.
+
+## Scheduler Job Integration
+
+Oracle APEX debug instrumentation is session-bound, so it does not provide visibility for background `DBMS_SCHEDULER` executions where no APEX web session exists. The `sql/07_scheduler_job.sql` script demonstrates how to use `PKG_ERROR_LOGGER` for step-by-step telemetry, recoverable error tracking, warning classification, and fatal failure capture in unattended jobs. Use the same exception-first pattern in all scheduler procedures to keep diagnostics durable and queryable.
+
+```sql
+BEGIN
+  -- Scheduler procedure body
+EXCEPTION
+  WHEN OTHERS THEN
+    pkg_error_logger.log_error(
+      p_module          => 'JOB_OR_PROC_NAME',
+      p_severity        => 'ERROR',
+      p_additional_info => 'Background execution context details'
+    );
+    RAISE;
+END;
+```
 
 ## Why `PRAGMA AUTONOMOUS_TRANSACTION` matters
 
